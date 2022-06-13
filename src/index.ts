@@ -29,7 +29,7 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
 
 async function bootstrap() {
   app.get('/', (req, res) => {
-    res.json({ message: 'started to app' })
+    res.json({ message: 'app is running!' })
   })
 
   app.use('/api', apiRouter)
