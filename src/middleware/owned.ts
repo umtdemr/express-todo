@@ -1,10 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import { Request, Response, NextFunction } from "express"
+import { Response, NextFunction } from "express"
+import { IRequestWithUser } from "../types/ExtendedExpressTypes";
 
 
 const prisma = new PrismaClient();
 
-export const noteBookOwnerMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+export const noteBookOwnerMiddleware = async (req: IRequestWithUser, res: Response, next: NextFunction) => {
   const userId: number = req!.user!.id;
   const notebookId: number = Number(req.params.id);
   
@@ -22,7 +23,7 @@ export const noteBookOwnerMiddleware = async (req: Request, res: Response, next:
   next();
 }
 
-export const taskOwnedMiddleware = async (req: Request, res: Response, next: NextFunction) => {
+export const taskOwnedMiddleware = async (req: IRequestWithUser, res: Response, next: NextFunction) => {
   const userId: number = req!.user!.id;
   const taskId: number = Number(req.params.id);
   

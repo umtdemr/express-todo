@@ -3,6 +3,7 @@ import { PrismaClient, User } from '@prisma/client';
 import passport from 'passport';
 import { noteBookOwnerMiddleware } from '../../../middleware/owned';
 import { body, check, validationResult } from 'express-validator';
+import { IRequestWithUser } from '../../../types/ExtendedExpressTypes';
 
 const prisma = new PrismaClient();
 
@@ -12,7 +13,7 @@ noteBookRouter.use(passport.authenticate('jwt', { session: false }))
 
 
 noteBookRouter.route('/')
-  .get(async (req, res) => {
+  .get(async (req: IRequestWithUser, res) => {
     const notebooks = await prisma.noteBook.findMany({
       where: {
         userId: req!.user!.id
@@ -24,7 +25,7 @@ noteBookRouter.route('/')
     body('title')
       .isLength({ min: 2 })
       .withMessage('title must be at least 2 chars long'),
-    async (req, res) => {
+    async (req: IRequestWithUser, res) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() })

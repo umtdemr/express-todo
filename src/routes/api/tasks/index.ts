@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import passport from 'passport';
 import { taskOwnedMiddleware } from '../../../middleware/owned';  
 import { body, validationResult } from 'express-validator';
+import { IRequestWithUser } from '../../../types/ExtendedExpressTypes';
 
 
 const tasksRouter = Router();
@@ -13,7 +14,7 @@ tasksRouter.use(passport.authenticate('jwt', { session: false }))
 
 
 tasksRouter.route('/')
-  .get(async (req, res) => {
+  .get(async (req: IRequestWithUser, res) => {
     const { notebook } = req.query;
     const tasks = await prisma.task.findMany({
       where: {
